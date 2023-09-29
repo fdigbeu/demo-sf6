@@ -1,0 +1,33 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Liste des todos !{% endblock %}
+
+{% block body %}
+
+{% for message in app.session.flashbag.get('info') %}
+<div class="alert alert-info" role="alert"> {{ message }} </div>
+{% endfor %}
+
+{% for message in app.session.flashbag.get('success') %}
+<div class="alert alert-success" role="alert"> {{ message }} </div>
+{% endfor %}
+
+{% for message in app.session.flashbag.get('danger') %}
+<div class="alert alert-danger" role="alert"> {{ message }} </div>
+{% endfor %}
+
+<h1>Liste des todos:</h1>
+<ul class="list-group">
+{% for key, value in app.session.get('todos') %}
+  <li class="list-group-item">{{ key }} : {{ value }}</li>
+{% endfor %}
+</ul>
+
+{% if number1 is defined %}
+<h1>Multiplication:</h1>
+<ul class="list-group">
+    <li class="list-group-item">{{ number1 }} x {{ number2 }} = {{ result }}</li>
+</ul>
+{% endif %}
+
+{% endblock %}
