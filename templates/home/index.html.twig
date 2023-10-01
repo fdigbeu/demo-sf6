@@ -1,16 +1,9 @@
-{% extends 'base.html.twig' %}
+{% extends 'admin.html.twig' %}
 
 {% block title %}Salut!{% endblock %}
 
-{% block body %}
-<div class="example-wrapper">
-    <h1>Bonjour {{ name }}! ✅</h1>
+{% block bodyTitle %}Salut!{% endblock %}
 
-    Infos utilisateur:
-    <ul>
-        {% if name is defined %}<li>NOM : {{ name }}</li>{% endif %}
-        {% if firstname is defined %}<li>PRENOM: {{ firstname }}</li>{% endif %}
-    </ul>
-</div>
-
+{% block bodyContent %}
+    {{ render(controller('App\\Controller\\GlobalController::hello', {lastname: name, firstname: firstname})) }}
 {% endblock %}

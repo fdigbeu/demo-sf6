@@ -1,0 +1,26 @@
+{% extends 'admin.html.twig' %}
+
+{% block title %}Tableau!{% endblock %}
+
+{% block bodyTitle %}Tableau de {{ table|length }} élément{% if table|length > 1 %}s{% endif %}!!{% endblock %}
+
+{% block bodyContent %}
+
+<div class="row">
+<p></p>
+<p></p>
+<p></p>
+</div>
+
+
+<ul class="list-group">
+  <li class="list-group-item">Nombre d"éléments : {{ table|length }}</li>
+  <li class="list-group-item">Valeur min : {{ min(table) }}</li>
+  <li class="list-group-item">Valeur max : {{ max(table) }}</li>
+  <li class="list-group-item"></li>
+{% for tab in table %}
+  <li class="list-group-item">{{ tab }}</li>
+{% endfor %}
+</ul>
+
+{% endblock %}

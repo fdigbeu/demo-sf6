@@ -1,22 +1,11 @@
-{% extends 'base.html.twig' %}
+{% extends 'admin.html.twig' %}
 
 {% block title %}Liste des todos !{% endblock %}
 
-{% block body %}
+{% block bodyTitle %}Liste des todos{% endblock %}
 
-{% for message in app.session.flashbag.get('info') %}
-<div class="alert alert-info" role="alert"> {{ message }} </div>
-{% endfor %}
+{% block bodyContent %}
 
-{% for message in app.session.flashbag.get('success') %}
-<div class="alert alert-success" role="alert"> {{ message }} </div>
-{% endfor %}
-
-{% for message in app.session.flashbag.get('danger') %}
-<div class="alert alert-danger" role="alert"> {{ message }} </div>
-{% endfor %}
-
-<h1>Liste des todos:</h1>
 <ul class="list-group">
 {% for key, value in app.session.get('todos') %}
   <li class="list-group-item">{{ key }} : {{ value }}</li>
