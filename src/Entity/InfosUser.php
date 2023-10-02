@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\InfosUserRepository;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: InfosUserRepository::class)]
@@ -21,6 +22,9 @@ class InfosUser
 
     #[ORM\Column(length: 50, nullable: true)]
     private ?string $job = null;
+
+    #[ORM\Column(type: Types::SMALLINT, nullable: true)]
+    private ?int $age = null;
 
     public function getId(): ?int
     {
@@ -59,6 +63,18 @@ class InfosUser
     public function setJob(?string $job): static
     {
         $this->job = $job;
+
+        return $this;
+    }
+
+    public function getAge(): ?int
+    {
+        return $this->age;
+    }
+
+    public function setAge(?int $age): static
+    {
+        $this->age = $age;
 
         return $this;
     }

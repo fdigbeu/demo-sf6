@@ -21,20 +21,28 @@ class InfosUserRepository extends ServiceEntityRepository
         parent::__construct($registry, InfosUser::class);
     }
 
-//    /**
-//     * @return InfosUser[] Returns an array of InfosUser objects
-//     */
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('i')
-//            ->andWhere('i.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('i.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
+    /**
+     * @return InfosUser[] Returns an array of InfosUser objects
+     */
+    public function findAllInfosUser(): array
+    {
+        return $this->createQueryBuilder('i')
+            ->orderBy('i.id', 'DESC')
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
+    
+    public function findInfosUserById($id): ?InfosUser
+    {
+        return $this->createQueryBuilder('i')
+            ->andWhere('i.id = :val')
+            ->setParameter('val', $id)
+            ->getQuery()
+            ->getOneOrNullResult()
+        ;
+    }
 
 //    public function findOneBySomeField($value): ?InfosUser
 //    {

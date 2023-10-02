@@ -1,0 +1,67 @@
+{% extends 'admin.html.twig' %}
+
+{% block title %}Liste des utilisateurs{% endblock %}
+
+{% block bodyTitle %}Liste des utilisateurs{% endblock %}
+
+{% block bodyContent %}
+    <table class="table table-success table-striped">
+    <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">NOM</th>
+            <th scope="col">PRENOM</th>
+            <th scope="col">AGE</th>
+            <th scope="col">JOB</th>
+            <th scope="col"></th>
+            <th scope="col"></th>
+        </tr>
+    </thead>
+
+    {% if infosUsers %}
+        <tbody>
+        {% for user in infosUsers %}
+            <tr>
+                <th scope="row">{{ user.id }}</th>
+                <td>{{ user.lastname }}</td>
+                <td>{{ user.firstname }}</td>
+                <td>{{ user.age }}</td>
+                <td>{{ user.job }}</td>
+                <td><a href="{{ path('app_infos_user_detail', {id: user.id}) }}" class="btn btn-info btn-sm" tabindex="-1" role="button" aria-disabled="true">Détail</a></td>
+                <td><a href="{{ path('app_infos_user_delete', {id: user.id}) }}" class="btn btn-danger btn-sm" tabindex="-1" role="button" aria-disabled="true">Supprimer</a></td>
+            </tr>
+        {% endfor %}
+            {% if maxPage > 1 %}
+            <tr>
+                <td colspan="7">
+                <nav aria-label="Page navigation example">
+                    <ul class="pagination">
+                    {% if page > 1 %}
+                        <li class="page-item">
+                            <a class="page-link" href="{{ path('app_infos_user_findby_pagination', {page: page-1}) }}" aria-label="Previous">
+                                <span aria-hidden="true">&laquo;</span>
+                                <span class="sr-only">Previous</span>
+                            </a>
+                        </li>
+                    {% endif %}
+                    <li class="page-item active"><a class="page-link" href="#">1</a></li>
+                    <li class="page-item"><a class="page-link" href="#">2</a></li>
+                    <li class="page-item"><a class="page-link" href="#">3</a></li>
+                    {% if page < maxPage %}
+                        <li class="page-item">
+                            <a class="page-link" href="{{ path('app_infos_user_findby_pagination', {page: page+1}) }}" aria-label="Next">
+                                <span aria-hidden="true">&raquo;</span>
+                                <span class="sr-only">Next</span>
+                            </a>
+                        </li>
+                    {% endif %}
+                    </ul>
+                </nav>
+                </td>
+            </tr>
+        {% endif %}
+        </tbody>
+    {% endif %}
+
+    </table>
+{% endblock %}
