@@ -80,12 +80,25 @@ class InfosUserController extends AbstractController
         $floor = floor($maxPage);
         if($maxPage > $floor){$maxPage = $floor + 1;}
         else{$maxPage = $floor;}
+        //--
+        $min = 1;
+        if($page-2 >= 1){ $min = $page-2; }
+        if($min+4 <= $maxPage){ $max = $min+4; }else{ 
+            $max = $maxPage; 
+            if($maxPage-4 >= 1){ $min = $maxPage-4; }
+        }
+        $tabPages = [];
+        for($i=$min; $i<=$max; $i++){
+            $tabPages[] = $i;
+        }
+        //--
         return $this->render('infos_user/pagination.html.twig', [
             'infosUsers' => $infosUsers,
             'maxPage' => $maxPage,
             'page' => $page,
             'nbByPage' => $nbByPage,
             'totalUsers' => $totalUsers,
+            'tabPages' => $tabPages,
         ]);
     }
 

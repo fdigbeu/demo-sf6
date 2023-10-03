@@ -44,9 +44,15 @@
                             </a>
                         </li>
                     {% endif %}
-                    <li class="page-item active"><a class="page-link" href="#">1</a></li>
-                    <li class="page-item"><a class="page-link" href="#">2</a></li>
-                    <li class="page-item"><a class="page-link" href="#">3</a></li>
+
+                    {% for nb in tabPages %}
+                        {% if nb == page %}
+                        <li class="page-item active"><a class="page-link" href="#">{{ nb }}</a></li>
+                        {% else %}
+                        <li class="page-item"><a class="page-link" href="{{ path('app_infos_user_findby_pagination', {page: nb}) }}">{{ nb }}</a></li>
+                        {% endif %}
+                    {% endfor %}
+
                     {% if page < maxPage %}
                         <li class="page-item">
                             <a class="page-link" href="{{ path('app_infos_user_findby_pagination', {page: page+1}) }}" aria-label="Next">
