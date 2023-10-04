@@ -119,15 +119,15 @@ class InfosUserController extends AbstractController
         $entityManager = $manager->getManager();
         //--
         $infosUser = new InfosUser();
-        $infosUser->setFirstname("Estebanne");
-        $infosUser->setLastname("MERVEILLE");
-        $infosUser->setAge(38);
+        $infosUser->setFirstname("Bernard");
+        $infosUser->setLastname("ZADI");
+        $infosUser->setAge(28);
         $entityManager->persist($infosUser);
         //--
         $infosUser = new InfosUser();
-        $infosUser->setFirstname("Espagnole");
-        $infosUser->setLastname("GASTON");
-        $infosUser->setAge(30);
+        $infosUser->setFirstname("Sabine");
+        $infosUser->setLastname("CARMEN");
+        $infosUser->setAge(40);
         $entityManager->persist($infosUser);
         //--
         $entityManager->flush();

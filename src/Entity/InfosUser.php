@@ -3,12 +3,18 @@
 namespace App\Entity;
 
 use App\Repository\InfosUserRepository;
+use App\Traits\TimeStampTrait;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
+#[ORM\HasLifecycleCallbacks]
 #[ORM\Entity(repositoryClass: InfosUserRepository::class)]
 class InfosUser
 {
+    use TimeStampTrait;
+
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
@@ -20,15 +26,21 @@ class InfosUser
     #[ORM\Column(length: 100)]
     private ?string $firstname = null;
 
-    #[ORM\Column(length: 50, nullable: true)]
-    private ?string $job = null;
-
     #[ORM\Column(type: Types::SMALLINT, nullable: true)]
     private ?int $age = null;
 
-    public function getId(): ?int
+    #[ORM\OneToOne(inversedBy: 'infosUser', cascade: ['persist', 'remove'])]
+    private ?Profile $profile = null;
+
+    #[ORM\ManyToOne(inversedBy: 'infosUsers')]
+    private ?Job $job = null;
+
+    #[ORM\ManyToMany(targetEntity: Hobby::class, inversedBy: 'infosUsers')]
+    private Collection $hobbies;
+
+    public function __construct()
     {
-        return $this->id;
+        $this->hobbies = new ArrayCollection();
     }
 
     public function getLastname(): ?string
@@ -55,18 +67,6 @@ class InfosUser
         return $this;
     }
 
-    public function getJob(): ?string
-    {
-        return $this->job;
-    }
-
-    public function setJob(?string $job): static
-    {
-        $this->job = $job;
-
-        return $this;
-    }
-
     public function getAge(): ?int
     {
         return $this->age;
@@ -75,6 +75,59 @@ class InfosUser
     public function setAge(?int $age): static
     {
         $this->age = $age;
+
+        return $this;
+    }
+
+    public function getId(): ?int
+    {
+        return $this->id;
+    }
+
+    public function getProfile(): ?Profile
+    {
+        return $this->profile;
+    }
+
+    public function setProfile(?Profile $profile): static
+    {
+        $this->profile = $profile;
+
+        return $this;
+    }
+
+    public function getJob(): ?Job
+    {
+        return $this->job;
+    }
+
+    public function setJob(?Job $job): static
+    {
+        $this->job = $job;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Hobby>
+     */
+    public function getHobbies(): Collection
+    {
+        return $this->hobbies;
+    }
+
+    public function addHobby(Hobby $hobby): static
+    {
+        if (!$this->hobbies->contains($hobby)) {
+            $this->hobbies->add($hobby);
+        }
+
+        return $this;
+    }
+
+    public function removeHobby(Hobby $hobby): static
+    {
+        $this->hobbies->removeElement($hobby);
 
         return $this;
     }
