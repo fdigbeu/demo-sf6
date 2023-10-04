@@ -27,6 +27,7 @@ class InfosUserRepository extends ServiceEntityRepository
     public function findAllInfosUser(): array
     {
         return $this->createQueryBuilder('i')
+            ->andWhere('i.age >= 40 and i.age <= 50')
             ->orderBy('i.id', 'DESC')
             ->getQuery()
             ->getResult()

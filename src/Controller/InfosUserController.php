@@ -96,9 +96,9 @@ class InfosUserController extends AbstractController
             'infosUsers' => $infosUsers,
             'maxPage' => $maxPage,
             'page' => $page,
-            'nbByPage' => $nbByPage,
-            'totalUsers' => $totalUsers,
             'tabPages' => $tabPages,
+            //'nbByPage' => $nbByPage,
+            //'totalUsers' => $totalUsers,
         ]);
     }
 
