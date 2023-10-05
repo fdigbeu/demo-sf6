@@ -30,6 +30,11 @@ class Job
         $this->infosUsers = new ArrayCollection();
     }
 
+    public function getId(): ?int
+    {
+        return $this->id;
+    }
+
     public function getDesignation(): ?string
     {
         return $this->designation;
@@ -70,5 +75,9 @@ class Job
         }
 
         return $this;
+    }
+
+    public function __toString(){
+        return $this->designation;
     }
 }

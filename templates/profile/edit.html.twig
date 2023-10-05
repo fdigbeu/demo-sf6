@@ -1,0 +1,9 @@
+{% extends 'admin.html.twig' %}
+
+{% block title %}{{ msgAction|capitalize }} un profile{% endblock %}
+
+{% block bodyTitle %}{{ msgAction|capitalize }} un profile{% endblock %}
+
+{% block bodyContent %}
+    {{ form(form) }}
+{% endblock %}

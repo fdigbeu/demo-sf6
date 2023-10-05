@@ -26,6 +26,11 @@ class Profile
     #[ORM\OneToOne(mappedBy: 'profile', cascade: ['persist', 'remove'])]
     private ?InfosUser $infosUser = null;
 
+    public function getId(): ?int
+    {
+        return $this->id;
+    }
+
     public function getUrl(): ?string
     {
         return $this->url;
@@ -70,5 +75,9 @@ class Profile
         $this->infosUser = $infosUser;
 
         return $this;
+    }
+
+    public function __toString(){
+        return $this->socialnetwork." : ".$this->url;
     }
 }

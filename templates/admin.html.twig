@@ -58,12 +58,12 @@
 
             <!-- Nav Item - Pages Collapse Menu -->
             <li class="nav-item">
-                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo"
-                    aria-expanded="true" aria-controls="collapseTwo">
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseArticles"
+                    aria-expanded="true" aria-controls="collapseArticles">
                     <i class="fas fa-fw fa-cog"></i>
                     <span>Nos articles</span>
                 </a>
-                <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+                <div id="collapseArticles" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <a class="collapse-item" href="{{ path('app_article') }}">Lister</a>
                         <a class="collapse-item" href="#card">Cards</a>
@@ -73,12 +73,12 @@
 
             <!-- Nav Item - Utilities Collapse Menu -->
             <li class="nav-item">
-                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities"
-                    aria-expanded="true" aria-controls="collapseUtilities">
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTodos"
+                    aria-expanded="true" aria-controls="collapseTodos">
                     <i class="fas fa-fw fa-wrench"></i>
                     <span>Todos list</span>
                 </a>
-                <div id="collapseUtilities" class="collapse" aria-labelledby="headingUtilities"
+                <div id="collapseTodos" class="collapse" aria-labelledby="headingUtilities"
                     data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">Fonctionnalités :</h6>
@@ -100,18 +100,16 @@
 
             <!-- Nav Item - Pages Collapse Menu -->
             <li class="nav-item">
-                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages"
-                    aria-expanded="true" aria-controls="collapsePages">
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUsers"
+                    aria-expanded="true" aria-controls="collapseUsers">
                     <i class="fas fa-fw fa-folder"></i>
-                    <span>Utilisateurs</span>
+                    <span>Utilisateur</span>
                 </a>
-                <div id="collapsePages" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
+                <div id="collapseUsers" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
-                        <h6 class="collapse-header">Infos utilisateurs:</h6>
+                        <h6 class="collapse-header">Menu utilisateur:</h6>
                         <a class="collapse-item" href="{{ path('app_infos_user') }}">Lister</a>
-                        <a class="collapse-item" href="{{ path('app_infos_user_add') }}">Ajouter</a>
-                        <a class="collapse-item" href="#">Supprimer</a>
-                        <a class="collapse-item" href="#">Mettre à jour</a>
+                        <a class="collapse-item" href="{{ path('app_infos_user_edit') }}">Ajouter</a>
                         <div class="collapse-divider"></div>
                         <h6 class="collapse-header">Other Pages:</h6>
                         <a class="collapse-item" href="404.html">404 Page</a>
@@ -120,11 +118,55 @@
                 </div>
             </li>
 
-            <!-- Nav Item - Charts -->
+            <!-- Nav Item - Pages Collapse Menu -->
             <li class="nav-item">
-                <a class="nav-link" href="charts.html">
-                    <i class="fas fa-fw fa-chart-area"></i>
-                    <span>Charts</span></a>
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseJobs"
+                    aria-expanded="true" aria-controls="collapseJobs">
+                    <i class="fas fa-fw fa-folder"></i>
+                    <span>Job</span>
+                </a>
+                <div id="collapseJobs" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
+                    <div class="bg-white py-2 collapse-inner rounded">
+                        <h6 class="collapse-header">Menu job:</h6>
+                        <a class="collapse-item" href="{{ path('app_job') }}">Lister</a>
+                        <a class="collapse-item" href="{{ path('app_job_edit') }}">Ajouter</a>
+                        <div class="collapse-divider"></div>
+                    </div>
+                </div>
+            </li>
+
+            <!-- Nav Item - Pages Collapse Menu -->
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseProfiles"
+                    aria-expanded="true" aria-controls="collapseProfiles">
+                    <i class="fas fa-fw fa-folder"></i>
+                    <span>Profile</span>
+                </a>
+                <div id="collapseProfiles" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
+                    <div class="bg-white py-2 collapse-inner rounded">
+                        <h6 class="collapse-header">Menu profile:</h6>
+                        <a class="collapse-item" href="{{ path('app_profile') }}">Lister</a>
+                        <a class="collapse-item" href="{{ path('app_profile_edit') }}">Ajouter</a>
+                        <div class="collapse-divider"></div>
+                    </div>
+                </div>
+            </li>
+
+            <!-- Nav Item - Pages Collapse Menu -->
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseHobbies"
+                    aria-expanded="true" aria-controls="collapseHobbies">
+                    <i class="fas fa-fw fa-folder"></i>
+                    <span>Hobby</span>
+                </a>
+                <div id="collapseHobbies" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
+                    <div class="bg-white py-2 collapse-inner rounded">
+                        <h6 class="collapse-header">Menu hobby:</h6>
+                        <a class="collapse-item" href="{{ path('app_hobby') }}">Lister</a>
+                        <a class="collapse-item" href="{{ path('app_hobby_edit') }}">Ajouter</a>
+                        <div class="collapse-divider"></div>
+                    </div>
+                </div>
             </li>
 
             <!-- Nav Item - Tables -->

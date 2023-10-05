@@ -38,6 +38,9 @@ class InfosUser
     #[ORM\ManyToMany(targetEntity: Hobby::class, inversedBy: 'infosUsers')]
     private Collection $hobbies;
 
+    #[ORM\Column(length: 150, nullable: true)]
+    private ?string $photo = null;
+
     public function __construct()
     {
         $this->hobbies = new ArrayCollection();
@@ -128,6 +131,22 @@ class InfosUser
     public function removeHobby(Hobby $hobby): static
     {
         $this->hobbies->removeElement($hobby);
+
+        return $this;
+    }
+
+    public function __toString(){
+        return $this->lastname." ".$this->firstname;
+    }
+
+    public function getPhoto(): ?string
+    {
+        return $this->photo;
+    }
+
+    public function setPhoto(?string $photo): static
+    {
+        $this->photo = $photo;
 
         return $this;
     }

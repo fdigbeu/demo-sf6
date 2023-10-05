@@ -15,6 +15,7 @@
             <th scope="col">JOB</th>
             <th scope="col"></th>
             <th scope="col"></th>
+            <th scope="col"></th>
         </tr>
     </thead>
 
@@ -28,6 +29,7 @@
                 <td>{{ user.age }}</td>
                 <td>{{ user.job }}</td>
                 <td><a href="{{ path('app_infos_user_detail', {id: user.id}) }}" class="btn btn-info btn-sm" tabindex="-1" role="button" aria-disabled="true">Détail</a></td>
+                <td><a href="{{ path('app_infos_user_edit', {id: user.id}) }}" class="btn btn-success btn-sm" tabindex="-1" role="button" aria-disabled="true">Modifier</a></td>
                 <td><a href="{{ path('app_infos_user_delete', {id: user.id}) }}" class="btn btn-danger btn-sm" tabindex="-1" role="button" aria-disabled="true">Supprimer</a></td>
             </tr>
         {% endfor %}
@@ -42,7 +44,8 @@
         <td>{{ infosUser.firstname }}</td>
         <td>{{ infosUser.age }}</td>
         <td>{{ infosUser.job }}</td>
-        <td><a href="{{ path('app_infos_user_detail', {id: infosUser.id}) }}" class="btn btn-info btn-sm" tabindex="-1" role="button" aria-disabled="true">Détail</a></td>
+        <th scope="col"></th>
+        <td><a href="{{ path('app_infos_user_edit', {id: infosUser.id}) }}" class="btn btn-success btn-sm" tabindex="-1" role="button" aria-disabled="true">Modifier</a></td>
         <td><a href="{{ path('app_infos_user_delete', {id: infosUser.id}) }}" class="btn btn-danger btn-sm" tabindex="-1" role="button" aria-disabled="true">Supprimer</a></td>
     </tr>
     </tbody>

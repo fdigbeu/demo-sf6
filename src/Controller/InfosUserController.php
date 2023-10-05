@@ -3,10 +3,12 @@
 namespace App\Controller;
 
 use App\Entity\InfosUser;
+use App\Form\InfosUserType;
 use App\Repository\InfosUserRepository;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Finder\Finder;
+use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -74,7 +76,7 @@ class InfosUserController extends AbstractController
     public function pagination(ManagerRegistry $manager, $page): Response
     {
         $nbByPage = 5;
-        $infosUsers = $manager->getRepository(InfosUser::class)->findBy([], [], $nbByPage, ($page - 1) * $nbByPage);
+        $infosUsers = $manager->getRepository(InfosUser::class)->findBy([], ["id" => "DESC"], $nbByPage, ($page - 1) * $nbByPage);
         $totalUsers = count($manager->getRepository(InfosUser::class)->findAll());
         $maxPage = $totalUsers/$nbByPage;
         $floor = floor($maxPage);
@@ -113,28 +115,51 @@ class InfosUserController extends AbstractController
     }
 
     
-    #[Route('/add', name: 'app_infos_user_add')]
-    public function add(Request $request, ManagerRegistry $manager): RedirectResponse
+    #[Route('/edit/{id<\d*>?0}', name: 'app_infos_user_edit')]
+    public function add(Request $request, InfosUser $infosUser=null, ManagerRegistry $manager, SluggerInterface $slugger): Response
     {
+        $msgAction = "modifié";
+        if(!$infosUser){
+            $infosUser = new InfosUser();
+            $msgAction = "ajouté";
+        }
+
+        $form = $this->createForm(InfosUserType::class, $infosUser);
+        $form->remove('createdAt');
+        $form->remove('updatedAt');
+        $form->handleRequest($request);
+        
         $entityManager = $manager->getManager();
-        //--
-        $infosUser = new InfosUser();
-        $infosUser->setFirstname("Bernard");
-        $infosUser->setLastname("ZADI");
-        $infosUser->setAge(28);
-        $entityManager->persist($infosUser);
-        //--
-        $infosUser = new InfosUser();
-        $infosUser->setFirstname("Sabine");
-        $infosUser->setLastname("CARMEN");
-        $infosUser->setAge(40);
-        $entityManager->persist($infosUser);
-        //--
-        $entityManager->flush();
-        //--
-        $this->addFlash("success", "Les données ont été ajoutées avec succès!");
-        //--
-        return $this->redirectToRoute('app_infos_user');
+        if ($form->isSubmitted()) { 
+            if($form->isValid()){
+                $photoFile = $form->get('photo')->getData();
+                if ($photoFile) {
+                    $originalFilename = pathinfo($photoFile->getClientOriginalName(), PATHINFO_FILENAME);
+                    $safeFilename = $slugger->slug($originalFilename);
+                    $newFilename = $safeFilename.'-'.uniqid().'.'.$photoFile->guessExtension();
+                    try {
+                        $photoFile->move($this->getParameter('photos_directory'), $newFilename);
+                    } 
+                    catch (FileException $e) {
+                        // ... handle exception if something happens during file upload
+                    }
+                    $infosUser->setPhoto($newFilename);
+                }
+
+                $entityManager->persist($infosUser);
+                $entityManager->flush();
+                $this->addFlash("success", "{$infosUser->getFirstname()} {$infosUser->getLastname()} a été $msgAction avec succès !");
+                return $this->redirectToRoute('app_infos_user_findby_pagination');
+            }
+            else{
+                $this->addFlash("danger", "Une erreur s'est produite pendant l'ajout de l'utilisateur.");
+            }
+        }
+
+        return $this->render('infos_user/edit.html.twig', [
+            'form' => $form->createView(),
+            'msgAction' => $msgAction,
+        ]);
     }
 
     #[Route('/detail/{id<\d+>}', name: 'app_infos_user_detail')]
@@ -153,14 +178,14 @@ class InfosUserController extends AbstractController
     public function delete(ManagerRegistry $manager, InfosUser $infosUser=null): RedirectResponse
     {
         if(!$infosUser){
-            $this->addFlash("danger", "Ce utilisateur n'existe pas dans la base.");
+            $this->addFlash("danger", "Ce utilisateur n'existe pas dans la base !");
         }
         else{
-            $this->addFlash("danger", "Ce utilisateur a été supprimé avec succès.");
+            $this->addFlash("danger", "{$infosUser->getFirstname()} {$infosUser->getLastname()} a été supprimé avec succès !");
         }
         $infosUserEntity = $manager->getManager();
         $infosUserEntity->remove($infosUser);
         $infosUserEntity->flush();
-        return $this->redirectToRoute('app_infos_user');
+        return $this->redirectToRoute('app_infos_user_findby_pagination');
     }
 }

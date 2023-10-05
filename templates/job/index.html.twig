@@ -1,20 +1,81 @@
-{% extends 'base.html.twig' %}
+{% extends 'admin.html.twig' %}
 
-{% block title %}Hello JobController!{% endblock %}
+{% block title %}Liste des jobs{% endblock %}
 
-{% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
+{% block bodyTitle %}Liste des jobs{% endblock %}
 
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
+{% block bodyContent %}
+<table class="table table-success table-striped">
+<thead>
+    <tr>
+        <th scope="col">#</th>
+        <th scope="col">DESIGNATION</th>
+        <th scope="col"></th>
+        <th scope="col"></th>
+        <th scope="col"></th>
+    </tr>
+</thead>
 
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code><a href="{{ 'C:/xampp/htdocs/symfony6/demo_v1/src/Controller/JobController.php'|file_link(0) }}">src/Controller/JobController.php</a></code></li>
-        <li>Your template at <code><a href="{{ 'C:/xampp/htdocs/symfony6/demo_v1/templates/job/index.html.twig'|file_link(0) }}">templates/job/index.html.twig</a></code></li>
-    </ul>
-</div>
+{% if jobs %}
+    <tbody>
+    {% for job in jobs %}
+        <tr>
+            <th scope="row">{{ job.id }}</th>
+            <td>{{ job.designation }}</td>
+            <td><a href="{{ path('app_job_detail', {id: job.id}) }}" class="btn btn-info btn-sm" tabindex="-1" role="button" aria-disabled="true">Détail</a></td>
+            <td><a href="{{ path('app_job_edit', {id: job.id}) }}" class="btn btn-success btn-sm" tabindex="-1" role="button" aria-disabled="true">Modifier</a></td>
+            <td><a href="{{ path('app_job_delete', {id: job.id}) }}" class="btn btn-danger btn-sm" tabindex="-1" role="button" aria-disabled="true">Supprimer</a></td>
+        </tr>
+    {% endfor %}
+    {% if maxPage > 1 %}
+    <tr>
+        <td colspan="5">
+        <nav aria-label="Page navigation example">
+            <ul class="pagination">
+            {% if page > 1 %}
+                <li class="page-item">
+                    <a class="page-link" href="{{ path('app_job', {page: page-1}) }}" aria-label="Previous">
+                        <span aria-hidden="true">&laquo;</span>
+                        <span class="sr-only">Previous</span>
+                    </a>
+                </li>
+            {% endif %}
+
+            {% for nb in tabPages %}
+                {% if nb == page %}
+                <li class="page-item active"><a class="page-link" href="#">{{ nb }}</a></li>
+                {% else %}
+                <li class="page-item"><a class="page-link" href="{{ path('app_job', {page: nb}) }}">{{ nb }}</a></li>
+                {% endif %}
+            {% endfor %}
+
+            {% if page < maxPage %}
+                <li class="page-item">
+                    <a class="page-link" href="{{ path('app_job', {page: page+1}) }}" aria-label="Next">
+                        <span aria-hidden="true">&raquo;</span>
+                        <span class="sr-only">Next</span>
+                    </a>
+                </li>
+            {% endif %}
+            </ul>
+        </nav>
+        </td>
+    </tr>
+    {% endif %}
+    </tbody>
+{% endif %}
+
+{% if job %}
+<tbody>
+ <tr>
+    <th scope="row">{{ job.id }}</th>
+    <td>{{ job.designation }}</td>
+    <th scope="col"></th>
+    <td><a href="{{ path('app_job_edit', {id: job.id}) }}" class="btn btn-success btn-sm" tabindex="-1" role="button" aria-disabled="true">Modifier</a></td>
+    <td><a href="{{ path('app_job_delete', {id: job.id}) }}" class="btn btn-danger btn-sm" tabindex="-1" role="button" aria-disabled="true">Supprimer</a></td>
+</tr>
+</tbody>
+{% endif %}
+
+</table>
 {% endblock %}

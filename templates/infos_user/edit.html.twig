@@ -1,0 +1,14 @@
+{% extends 'admin.html.twig' %}
+
+{% block title %}{{ msgAction|capitalize }} un utilisateur{% endblock %}
+
+{% block bodyTitle %}{{ msgAction|capitalize }} un utilisateur{% endblock %}
+
+{% block bodyContent %}
+    {{ form_start(form) }}
+    <div class="row">
+        <div class="col">{{ form_row(form.lastname) }}</div>
+        <div class="col">{{ form_row(form.firstname) }}</div>
+    </div>
+    {{ form_rest(form) }}
+{% endblock %}
