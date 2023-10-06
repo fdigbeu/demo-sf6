@@ -67,8 +67,8 @@ class ProfileController extends AbstractController
         if(!$profile){
             $profile = new Profile();
             $msgAction = "ajouté";
-            $form->remove('infosUser');
         }
+        $form->remove('infosUser');
         $form->remove('createdAt');
         $form->remove('updatedAt');
         $form->handleRequest($request);
@@ -79,7 +79,7 @@ class ProfileController extends AbstractController
                 $entityManager->persist($profile);
                 $entityManager->flush();
                 $this->addFlash('info', 'Vos données ont été '.$msgAction.'es avec succès !');
-                return $this->redirectToRoute('app_job');
+                return $this->redirectToRoute('app_profile');
             }
         }
 

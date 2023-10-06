@@ -5,17 +5,13 @@ namespace App\Controller;
 use App\Entity\InfosUser;
 use App\Form\InfosUserType;
 use App\Repository\InfosUserRepository;
+use App\Service\UploadService;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\Finder\Finder;
-use Symfony\Component\HttpFoundation\File\Exception\FileException;
-use Symfony\Component\HttpFoundation\File\File;
-use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\String\Slugger\SluggerInterface;
 
 #[Route('/infosuser')]
 class InfosUserController extends AbstractController
@@ -116,7 +112,7 @@ class InfosUserController extends AbstractController
 
     
     #[Route('/edit/{id<\d*>?0}', name: 'app_infos_user_edit')]
-    public function add(Request $request, InfosUser $infosUser=null, ManagerRegistry $manager, SluggerInterface $slugger): Response
+    public function add(Request $request, InfosUser $infosUser=null, ManagerRegistry $manager, UploadService $upload): Response
     {
         $msgAction = "modifié";
         if(!$infosUser){
@@ -134,16 +130,8 @@ class InfosUserController extends AbstractController
             if($form->isValid()){
                 $photoFile = $form->get('photo')->getData();
                 if ($photoFile) {
-                    $originalFilename = pathinfo($photoFile->getClientOriginalName(), PATHINFO_FILENAME);
-                    $safeFilename = $slugger->slug($originalFilename);
-                    $newFilename = $safeFilename.'-'.uniqid().'.'.$photoFile->guessExtension();
-                    try {
-                        $photoFile->move($this->getParameter('photos_directory'), $newFilename);
-                    } 
-                    catch (FileException $e) {
-                        // ... handle exception if something happens during file upload
-                    }
-                    $infosUser->setPhoto($newFilename);
+                    $fileDirectory = $this->getParameter('photos_directory');
+                    $infosUser->setPhoto($upload->upload($photoFile, $fileDirectory));
                 }
 
                 $entityManager->persist($infosUser);

@@ -8,6 +8,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\HasLifecycleCallbacks]
 #[ORM\Entity(repositoryClass: InfosUserRepository::class)]
@@ -21,12 +22,21 @@ class InfosUser
     private ?int $id = null;
 
     #[ORM\Column(length: 100)]
+    #[Assert\NotBlank(message: "Ce champ est obligatoire.")]
     private ?string $lastname = null;
 
     #[ORM\Column(length: 100)]
+    #[Assert\NotBlank(message: "Ce champ est obligatoire.")]
     private ?string $firstname = null;
 
     #[ORM\Column(type: Types::SMALLINT, nullable: true)]
+    #[Assert\NotBlank(message: "Ce champ est obligatoire.")]
+    #[Assert\Length(
+        min: 1,
+        max: 200,
+        minMessage: 'La valeur minimale est de {{ limit }}',
+        maxMessage: 'La valeur maximale est de {{ limit }}',
+    )]
     private ?int $age = null;
 
     #[ORM\OneToOne(inversedBy: 'infosUser', cascade: ['persist', 'remove'])]

@@ -36,24 +36,27 @@ class InfosUserType extends AbstractType
             ->add('updatedAt')
             ->add('profile', EntityType::class, [
                 'label' => 'Sélectionnez votre profile',
-                'expanded' => true,
+                'expanded' => false,
                 'multiple' => false,
                 'class' => Profile::class,
+                'attr' => ['class' => 'select2'],
             ])
             ->add('job', EntityType::class, [
                 'label' => 'Sélectionnez votre job',
-                'expanded' => true,
+                'expanded' => false,
                 'multiple' => false,
                 'class' => Job::class,
+                'attr' => ['class' => 'select2'],
             ])
             ->add('hobbies', EntityType::class, [
                 'label' => 'Choisissez vos hobbies',
-                'expanded' => true,
+                'expanded' => false,
                 'multiple' => true,
                 'class' => Hobby::class,
                 'query_builder' => function(EntityRepository $er){
                     return $er->createQueryBuilder('h')->orderBy('h.designation', 'ASC');
                 },
+                'attr' => ['class' => 'select2'],
                 //'choice_label' => 'designation',
                 'choice_label' => function($hobbies){
                     return $hobbies->getDesignation();
@@ -71,7 +74,7 @@ class InfosUserType extends AbstractType
                             'image/jpeg',
                             'image/jpg',
                         ],
-                        'mimeTypesMessage' => 'Veuillez uploader une image valide',
+                        'mimeTypesMessage' => 'Veuillez uploader une image valide (Gif, Jpeg, Jpg)',
                     ])
                 ],
             ])

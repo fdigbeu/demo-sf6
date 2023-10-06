@@ -20,6 +20,10 @@
     <!-- Custom styles for this template-->
     <link href="{{ asset('assets/admin/css/sb-admin-2.min.css') }}" rel="stylesheet">
 
+    <link href="{{ asset('node_modules/select2/dist/css/select2.min.css') }}" rel="stylesheet" />
+
+    {% block stylesheets %}{% endblock %}
+
 </head>
 
 <body id="page-top">
@@ -176,7 +180,14 @@
                     <span>Tables</span></a>
             </li>
 
-            <!-- Divider -->
+            <!-- Nav Item - Tables -->
+            <li class="nav-item">
+                <a class="nav-link" href="{{ path('app_pdf_generator') }}">
+                    <i class="fas fa-fw fa-table"></i>
+                    <span>Generer PDF</span></a>
+            </li>
+
+            <!-- Divider  -->
             <hr class="sidebar-divider d-none d-md-block">
 
             <!-- Sidebar Toggler (Sidebar) -->
@@ -498,6 +509,10 @@
     <!-- Page level custom scripts -->
     <script src="{{ asset('assets/admin/js/demo/chart-area-demo.js') }}"></script>
     <script src="{{ asset('assets/admin/js/demo/chart-pie-demo.js') }}"></script>
+
+    <script src="{{ asset('node_modules/select2/dist/js/select2.min.js') }}"></script>
+
+    {% block javascripts %}{% endblock %}
 
 </body>
 
