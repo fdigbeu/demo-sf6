@@ -137,7 +137,7 @@ class InfosUserController extends AbstractController
                 $entityManager->persist($infosUser);
                 $entityManager->flush();
                 $this->addFlash("success", "{$infosUser->getFirstname()} {$infosUser->getLastname()} a été $msgAction avec succès !");
-                return $this->redirectToRoute('app_infos_user_findby_pagination');
+                return $this->redirectToRoute('app_infos_user_findby_pagination'); 
             }
             else{
                 $this->addFlash("danger", "Une erreur s'est produite pendant l'ajout de l'utilisateur.");
