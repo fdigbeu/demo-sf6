@@ -1,0 +1,36 @@
+{% extends 'admin.html.twig' %}
+
+{% block title %}Liste des utilisateurs{% endblock %}
+
+{% block bodyTitle %}Liste des utilisateurs{% endblock %}
+
+{% block bodyContent %}
+    <table class="table table-success table-striped">
+    <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">E-MAIL</th>
+            <th scope="col">MOT DE PASSE</th>
+            <th scope="col"></th>
+            <th scope="col"></th>
+            <th scope="col"></th>
+        </tr>
+    </thead>
+
+    {% if users %}
+        <tbody>
+        {% for user in users %}
+            <tr>
+                <th scope="row">{{ user.id }}</th>
+                <td>{{ user.email }}</td>
+                <td>{{ user.password }}</td>
+                <td><a href="{{ path('app_user_detail', {id: user.id}) }}" class="btn btn-info btn-sm" tabindex="-1" role="button" aria-disabled="true">Détail</a></td>
+                <td><a href="#" class="btn btn-success btn-sm" tabindex="-1" role="button" aria-disabled="true">Modifier</a></td>
+                <td><a href="{{ path('app_user_delete', {id: user.id}) }}" class="btn btn-danger btn-sm" tabindex="-1" role="button" aria-disabled="true">Supprimer</a></td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    {% endif %}
+
+    </table>
+{% endblock %}

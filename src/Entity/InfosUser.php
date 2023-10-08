@@ -51,6 +51,9 @@ class InfosUser
     #[ORM\Column(length: 150, nullable: true)]
     private ?string $photo = null;
 
+    #[ORM\OneToOne(mappedBy: 'infosUser', cascade: ['persist', 'remove'])]
+    private ?User $user = null;
+
     public function __construct()
     {
         $this->hobbies = new ArrayCollection();
@@ -157,6 +160,28 @@ class InfosUser
     public function setPhoto(?string $photo): static
     {
         $this->photo = $photo;
+
+        return $this;
+    }
+
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    public function setUser(?User $user): static
+    {
+        // unset the owning side of the relation if necessary
+        if ($user === null && $this->user !== null) {
+            $this->user->setInfosUser(null);
+        }
+
+        // set the owning side of the relation if necessary
+        if ($user !== null && $user->getInfosUser() !== $this) {
+            $user->setInfosUser($this);
+        }
+
+        $this->user = $user;
 
         return $this;
     }

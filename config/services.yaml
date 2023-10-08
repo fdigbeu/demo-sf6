@@ -21,5 +21,10 @@ services:
             - '../src/Entity/'
             - '../src/Kernel.php'
 
+    App\EventListener\UserListener:
+        tags:
+            # - {name: kernel.event_listener, event: user.add, method: onAddUserListener}
+            # - {name: kernel.event_listener, event: users.count, method: onTotalUserListener}
+
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones

@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\User;
+use App\Entity\InfosUser;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -38,23 +39,24 @@ class SecurityController extends AbstractController
     public function loaduser(UserPasswordHasherInterface $asher, ManagerRegistry $registry): RedirectResponse
     {
         $entityManager = $registry->getManager();
-        $tabAdmin = ["admin@gmail.com", "admin@yahoo.com", "admin@laposte.com", "admin@voila.com", "admin@sfr.com"];
-        $tabUser = ["MARTINE@gmail.com", "CHAPPUIS@yahoo.com", "CHAPOLARD@laposte.com", "CHANU@voila.com", "BAG@sfr.com"];
-        $tabPwd = ["MARTINE", "CHAPPUIS", "CHAPOLARD", "CHANU", "BAG"];
-        for($i=0; $i<count($tabAdmin); $i++){
-            $admin = new User();
-            $admin->setEmail($tabAdmin[$i]);
-            $admin->setPassword($asher->hashPassword($admin, "admin"));
-            $admin->setRoles(["ROLE_ADMIN"]);
-            $entityManager->persist($admin);
-            //--
-            $user = new User(); 
-            $user->setEmail(strtolower($tabUser[$i]));
-            $user->setPassword($asher->hashPassword($user, strtolower($tabPwd[$i])));
-            $entityManager->persist($user);
+
+        $infosUsers = $registry->getRepository(InfosUser::class)->findAll();
+        $tabEmails = ["@gmail.com", "@yahoo.com", "@laposte.com", "@voila.com", "@sfr.com", 
+                        "@orange.fr", "@outlook.com", "@mailbox.org", "@hubspot.com", "@tutanota.org"];
+        if($infosUsers && count($infosUsers) > 0){
+            for($i=0; $i<count($infosUsers); $i++){
+                $infosUser = $infosUsers[$i];
+                if($infosUser && !$infosUser->getUser()){
+                    $user = new User();
+                    $user->setEmail(strtolower($infosUser->getLastname()).$tabEmails[rand(0, count($tabEmails)-1)]);
+                    $user->setPassword($asher->hashPassword($user, $infosUser->getLastname()));
+                    $user->setInfosUser($infosUser);
+                    $entityManager->persist($user);
+                }
+            }
+            $entityManager->flush();
+            $this->addFlash('info', 'Vos données ont été enregistrées avec succès.');
         }
-        $entityManager->flush();
-        $this->addFlash('info', 'Vos données ont été enregistrées avec succès.');
         return $this->redirectToRoute('app_login');
     }
 }
